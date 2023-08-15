@@ -80,12 +80,13 @@ class RegistrationViewController: UIViewController{
     private let stackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 80
+        stackView.spacing = 12
+        stackView.distribution = .fillEqually
         
         return stackView
     }()
     
-    private let registerButton: UIButton = {
+    private lazy var registerButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = UIColor(hex: "#50C2C9")
         button.titleLabel?.textColor = UIColor(hex: "#FFFFFF")
@@ -139,64 +140,60 @@ class RegistrationViewController: UIViewController{
     //MARK: - Constraints
 
     private func setupUI(){
-        stackView.addArrangedSubview(nameField)
-        stackView.addArrangedSubview(emailField)
-        stackView.addArrangedSubview(passwordField)
-        stackView.addArrangedSubview(confirmPasswordField)
-                
-        let subviewsToAdd = [
+        
+        view.backgroundColor = UIColor(hex: "#F2F2F2")
+        
+        [
+            nameField,
+            emailField,
+            passwordField,
+            confirmPasswordField
+        ].forEach(stackView.addArrangedSubview)
+        
+        [
             shapeImageView,
             headerLabel,
             infoLabel,
             stackView,
             registerButton,
             signInLabel
-        ]
-        
-        subviewsToAdd.forEach{ view.addSubview($0)}
+        ].forEach(view.addSubview)
         
         shapeImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(0)
-            make.top.equalToSuperview().inset(0)
+            make.top.leading.equalToSuperview()
         }
         
         headerLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalToSuperview().offset(248)
+//            make.leading.equalToSuperview().offset(111)
+            
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(248)
-            make.leading.equalToSuperview().offset(111)
+            make.top.equalTo(shapeImageView.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
         infoLabel.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom).offset(16)
-            make.leading.equalTo(headerLabel.snp.leading)
-            make.trailing.equalTo(headerLabel.snp.trailing)
+            make.top.equalTo(headerLabel.snp.bottom).offset(4)
+            make.trailing.leading.equalTo(headerLabel)
         }
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(infoLabel.snp.bottom).offset(90)
-            //make.centerX.equalToSuperview()
-            make.left.equalToSuperview().offset(23)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
         }
         
         registerButton.snp.makeConstraints { make in
-            //make.top.equalTo(stackView.snp.bottom).offset(73)
-            make.bottom.equalToSuperview().offset(-73)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(380)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(60)
         }
         
         signInLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
-            make.top.equalTo(registerButton.snp.bottom).offset(19)
+            make.top.equalTo(registerButton.snp.bottom).offset(16)
         }
-}
-
-
-
-
-
-
-
+    }
 }
 

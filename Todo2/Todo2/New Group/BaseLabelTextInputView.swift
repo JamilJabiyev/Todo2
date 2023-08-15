@@ -4,8 +4,6 @@
 //
 //  Created by Jamil Jabiyev on 13.08.23.
 //
-
-import Foundation
 import UIKit
 import SnapKit
 
@@ -15,7 +13,6 @@ struct BaseLabelTextInputViewModel {
 }
 
 class BaseLabelTextInputView: UIView, UITextFieldDelegate {
-    
     
     //MARK: - Life Cycle
     
@@ -35,8 +32,6 @@ class BaseLabelTextInputView: UIView, UITextFieldDelegate {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
-        view.addSubview(inputTextField)
-        
         return view
     }()
     
@@ -49,7 +44,6 @@ class BaseLabelTextInputView: UIView, UITextFieldDelegate {
         //textField.isEnabled = true
         //textField.isUserInteractionEnabled = true
         
-        
         return textField
     }()
     
@@ -58,8 +52,6 @@ class BaseLabelTextInputView: UIView, UITextFieldDelegate {
         inputTextField.isEnabled = true
         inputTextField.isUserInteractionEnabled = true
         inputTextField.delegate = self
-        //inputTextField.becomeFirstResponder()
-        //inputTextField.delegate
     }
     
     //MARK: - Constraints
@@ -67,25 +59,21 @@ class BaseLabelTextInputView: UIView, UITextFieldDelegate {
     func setup(){
         addSubview(wrapperInputFieldView)
         
+        wrapperInputFieldView.addSubview(inputTextField)
+        
         wrapperInputFieldView.snp.makeConstraints { make in
-            make.width.equalTo(380)
+            make.leading.trailing.bottom.top.equalToSuperview()
             make.height.equalTo(50)
         }
         
         inputTextField.snp.makeConstraints { make in
-            make.left.equalTo(wrapperInputFieldView.snp.left).offset(25)
-            make.top.equalTo(wrapperInputFieldView.snp.top).offset(15)
-            make.bottom.equalTo(wrapperInputFieldView.snp.bottom).offset(-15)
-            make.height.equalTo(20)
+            make.leading.equalToSuperview().offset(25)
+            make.top.equalToSuperview().offset(15)
+            make.bottom.equalToSuperview().offset(-15)
+            make.trailing.equalToSuperview()
+            //make.height.equalTo(20)
         }
     }
-
-    
-    
-    
-    
-    
-    
 }
 
 

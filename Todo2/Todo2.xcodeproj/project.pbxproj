@@ -24,6 +24,7 @@
 		063177362A896B08008D3F61 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063177352A896B08008D3F61 /* Fonts.swift */; };
 		063177382A896B2A008D3F61 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063177372A896B29008D3F61 /* UIColor.swift */; };
 		0631773A2A896CDB008D3F61 /* hohoho.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063177392A896CDB008D3F61 /* hohoho.swift */; };
+		06F5B8842A8A09450082C029 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5B8832A8A09450082C029 /* CustomTableViewCell.swift */; };
 		D1C18992CEA9925A6747E0C7 /* Pods_Todo2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B1DFD9B03091FFD79D5F8E /* Pods_Todo2.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		063177352A896B08008D3F61 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		063177372A896B29008D3F61 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		063177392A896CDB008D3F61 /* hohoho.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hohoho.swift; sourceTree = "<group>"; };
+		06F5B8832A8A09450082C029 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		3A034B1F73DDABD20F34982E /* Pods-Todo2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Todo2.release.xcconfig"; path = "Target Support Files/Pods-Todo2/Pods-Todo2.release.xcconfig"; sourceTree = "<group>"; };
 		60B1DFD9B03091FFD79D5F8E /* Pods_Todo2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Todo2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A8870B9F929263768F29F2 /* Pods-Todo2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Todo2.debug.xcconfig"; path = "Target Support Files/Pods-Todo2/Pods-Todo2.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				063177312A896AC3008D3F61 /* RegistrationViewController.swift */,
 				063177332A896ADD008D3F61 /* SignInViewController.swift */,
 				063177112A8966F7008D3F61 /* ViewController.swift */,
+				06F5B8832A8A09450082C029 /* CustomTableViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				0631773A2A896CDB008D3F61 /* hohoho.swift in Sources */,
 				063177342A896ADD008D3F61 /* SignInViewController.swift in Sources */,
 				063177322A896AC3008D3F61 /* RegistrationViewController.swift in Sources */,
+				06F5B8842A8A09450082C029 /* CustomTableViewCell.swift in Sources */,
 				063177302A896AA2008D3F61 /* FirstViewController.swift in Sources */,
 				063177122A8966F7008D3F61 /* ViewController.swift in Sources */,
 				0631770E2A8966F7008D3F61 /* AppDelegate.swift in Sources */,

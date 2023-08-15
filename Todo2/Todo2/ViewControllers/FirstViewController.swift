@@ -18,7 +18,6 @@ class FirstViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupUI()
-        
     }
     
     //MARK: - Views
@@ -27,7 +26,6 @@ class FirstViewController: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "shape-2")
         imageView.image = image
-        
         return imageView
     }()
     
@@ -35,7 +33,6 @@ class FirstViewController: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "undraw_done_checking_re_6vyx 1")
         imageView.image = image
-        
         return imageView
     }()
     
@@ -44,7 +41,6 @@ class FirstViewController: UIViewController {
         label.textAlignment = .center
         label.text = "Gets things with TODs"
         label.font = Fonts.style(type: .bold, size: 18)
-        
         return label
     }()
     
@@ -54,11 +50,10 @@ class FirstViewController: UIViewController {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = Fonts.style(type: .regular, size: 13)
-        
         return label
     }()
     
-    private let getStartedButton: UIButton = {
+    private lazy var getStartedButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = UIColor(hex: "#50C2C9")
         button.titleLabel?.textColor = UIColor(hex: "#FFFFFF")
@@ -66,80 +61,61 @@ class FirstViewController: UIViewController {
         button.setTitle("Get Started", for: .normal)
         button.titleLabel?.font = Fonts.style(type: .semibold, size: 18)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         return button
     }()
     
-    @objc private func buttonTapped() {
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    @objc
+    private func buttonTapped() {
         let nextScreen = RegistrationViewController()
-            navigationController?.pushViewController(nextScreen, animated: true)
-        }
+        navigationController?.pushViewController(nextScreen, animated: true)
+    }
     
     //MARK: - Constraints
     
     private func setupUI(){
-                
-        let subviewsToAdd = [
-            shapeImageView,
-            centerImage,
-            headerLabel,
-            infoLabel,
-            getStartedButton
-        ]
         
-        subviewsToAdd.forEach{ view.addSubview($0)}
+        [
+        centerImage,
+        headerLabel,
+        infoLabel
+        ].forEach(stackView.addArrangedSubview)
+
+        stackView.setCustomSpacing(64, after: centerImage)
+        
+        [
+            shapeImageView,
+            stackView,
+            getStartedButton
+        ].forEach(view.addSubview)
         
         shapeImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(0)
-            make.top.equalToSuperview().inset(0)
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
         }
         
-        centerImage.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(261)
-        }
+        // MARK: - REFACTOR
         
-        headerLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(centerImage.snp.bottom).offset(65)
-            make.leading.equalToSuperview().offset(110)
-        }
-        
-        infoLabel.snp.makeConstraints { make in
-            make.top.equalTo(headerLabel.snp.bottom).offset(16)
-            make.leading.equalTo(headerLabel.snp.leading)
-            //make.trailing.equalToSuperview().offset(16)
-            //make.left.right.equalTo(headerLabel)
-            //make.leading.equalTo(headerLabel.snp.leading)
-            make.trailing.equalTo(headerLabel.snp.trailing)
-            //make.left.equalTo(headerLabel.snp.left)
-            //make.right.equalTo(headerLabel.snp.right)
-            //make.centerX.equalToSuperview()
-            //make.bottom.lessThanOrEqualToSuperview()
+        stackView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
         getStartedButton.snp.makeConstraints { make in
             //make.top.equalTo(infoLabel.snp.bottom).offset(136)
-            make.bottom.equalToSuperview().offset(-73)
+            make.bottom.equalToSuperview().offset(-64)
             make.centerX.equalToSuperview()
-            make.width.equalTo(380)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(60)
         }
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 

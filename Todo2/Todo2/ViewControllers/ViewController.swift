@@ -8,8 +8,16 @@
 import UIKit
 import SnapKit
 
+struct Task {
+    let title: String
+    let isCompleted: Bool
+}
+
 class ViewController: UIViewController {
 
+    var tasks: [String] = []
+    
+    // ok
     
     //MARK: - Life Cycle
     
@@ -22,11 +30,16 @@ class ViewController: UIViewController {
     
     //MARK: - Views
     
+    private let shapeImageView: UIImageView = {
+        let shapeImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 270))
+        let image = UIImage(named: "shape" )
+        shapeImageView.image = image
+        return shapeImageView
+    }()
+    
     private let rectangleImageView: UIImageView = {
-        let rectangleImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 430, height: 292))
-        let image = UIImage(named: "Rectangle 4" )
-        rectangleImage.image = image
-        
+        let rectangleImage = UIImageView()
+        rectangleImage.image = UIImage(named: "Rectangle 4")
         return rectangleImage
     }()
     
@@ -34,24 +47,7 @@ class ViewController: UIViewController {
         let profileImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         let image = UIImage(named: "Ellipse 3" )
         profileImageView.image = image
-        
         return profileImageView
-    }()
-    
-    private let shapeImageView: UIImageView = {
-        let shapeImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 270))
-        let image = UIImage(named: "shape" )
-        shapeImageView.image = image
-        
-        return shapeImageView
-    }()
-    
-    private let clockImageView: UIImageView = {
-        let clockImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
-        let image = UIImage(named: "clock" )
-        clockImageView.image = image
-        
-        return clockImageView
     }()
     
     private let wellcomeLabel: UILabel = {
@@ -59,7 +55,6 @@ class ViewController: UIViewController {
         wellcomeLabel.text = "Welcome Jeegar goyani"
         wellcomeLabel.textColor = UIColor(hex: "#FFFFFF")
         wellcomeLabel.font = Fonts.style(type: .bold, size: 18)
-        
         return wellcomeLabel
     }()
     
@@ -67,30 +62,32 @@ class ViewController: UIViewController {
         var wellcomeLabel = UILabel()
         wellcomeLabel.text = "Good Afternoon"
         wellcomeLabel.font = Fonts.style(type: .semibold, size: 12)
-        
         return wellcomeLabel
+    }()
+    
+    private let clockImageView: UIImageView = {
+        let clockImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
+        let image = UIImage(named: "clock" )
+        clockImageView.image = image
+        return clockImageView
     }()
     
     private let taskListLabel: UILabel = {
         let wellcomeLabel = UILabel()
         wellcomeLabel.text = "Task list"
         wellcomeLabel.font = Fonts.style(type: .semibold, size: 14)
-        
         return wellcomeLabel
     }()
-    
-    private let viewForTableViewAndHeaders: UIImageView = {
-        //let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 382, height: 309))
-        //view.frame = CGRect(x: 0, y: 0, width: 382, height: 309)
-        let view = UIImageView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowOffset = CGSize(width: 0, height: 4)
-        view.layer.shadowRadius = 10
-        
-        return view
+
+    private let box: UIView = {
+       let box = UIView()
+        box.backgroundColor = .white
+        box.layer.cornerRadius = 10
+        box.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        box.layer.shadowOpacity = 1
+        box.layer.shadowOffset = CGSize(width: 0, height: 4)
+        box.layer.shadowRadius = 10
+        return box
     }()
     
     private let dailyTaskLabel: UILabel = {
@@ -102,7 +99,7 @@ class ViewController: UIViewController {
         return label
     }()
     
-    private let plusButton: UIButton = {
+    private lazy var plusButton: UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: "plus"), for: .normal)
         button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
@@ -110,19 +107,20 @@ class ViewController: UIViewController {
         return button
     }()
     
-    @objc private func plusButtonTapped() {
+    @objc
+    private func plusButtonTapped() {
         // Создание алерта
         let alertController = UIAlertController(title: "Add Task", message: nil, preferredStyle: .alert)
-
+        
         // Добавление текстового поля
         alertController.addTextField { textField in
             textField.placeholder = "Task name"
         }
-
+        
         // Добавление кнопки "OK" с обработчиком
         alertController.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             if let taskName = alertController.textFields?.first?.text, !taskName.isEmpty {
-
+                
                 self?.tasks.insert(taskName, at: 0)
                 //self?.tasks.append(taskName)
                 self?.saveTasksToUserDefaults()
@@ -130,55 +128,57 @@ class ViewController: UIViewController {
             }
             
         })
-
+        
         // Добавление кнопки "Cancel"
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
+        
         // Отображение алерта
         present(alertController, animated: true, completion: nil)
     }
     
-    private let logoButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "Rectangle 9"), for: .normal)
-        button.setImage(UIImage(named: "Rectangle 9-2"), for: .selected)
-        button.addTarget(self, action: #selector(logoButtonTapped), for: .touchUpInside)
-
-        return button
-    }()
-    
-    @objc private func logoButtonTapped(sender: UIButton) {
-        sender.isSelected.toggle() // Переключаем состояние кнопки (выбрано/не выбрано)
-    }
+//    private lazy var logoButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(named: "Rectangle 9"), for: .normal)
+//        button.setImage(UIImage(named: "Rectangle 9-2"), for: .selected)
+//        button.addTarget(self, action: #selector(logoButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
+//    
+//    @objc
+//    private func logoButtonTapped(sender: UIButton) {
+//        sender.isSelected.toggle() // Переключаем состояние кнопки (выбрано/не выбрано)
+//    }
     
     //MARK: - UserDefaults
+    
+    struct userDefaultsStruct {
+        let textLabel: String
+        let button: UIButton
+    }
+    
     func saveTasksToUserDefaults() {
         UserDefaults.standard.set(tasks, forKey: "savedTasks")
     }
     
+//    func saveTasksToUserDefaults() {
+//        UserDefaults.standard.set(tasks, forKey: userDefaultsStruct(textLabel: "savedTasks", button: UIButton))
+//    }
+    
     func saveNewDataWithUserDefaults(){
         if let savedTasks = UserDefaults.standard.array(forKey: "savedTasks") as? [String] {
-                tasks = savedTasks
-                tableView.reloadData()
-            }
+            tasks = savedTasks
+            tableView.reloadData()
+        }
     }
     
-    
     //MARK: - TableView
+    
     private let tableView: UITableView = {
-       let tableView = UITableView()
-        tableView.backgroundColor = UIColor(hex: "#50C2C9")
-
+        let tableView = UITableView()
+//        tableView.backgroundColor = UIColor(hex: "#50C2C9")
+        tableView.backgroundColor = UIColor(red: 0.941, green: 0.957, blue: 0.953, alpha: 1)
         return tableView
     }()
-    
-    var tasks: [String] = [
-        "Learning Programming by 12PM",
-        "Learn how to cook by 1PM",
-        "Learn how to play at 2PM",
-        "Have lunch at 4PM",
-        "Going to travel 6PM"
-    ]
     
     //MARK: - identifikator
     
@@ -190,13 +190,14 @@ class ViewController: UIViewController {
         
         view.backgroundColor = UIColor(red: 0.941, green: 0.957, blue: 0.953, alpha: 1)
         
-        viewForTableViewAndHeaders.addSubview(dailyTaskLabel)
-        viewForTableViewAndHeaders.addSubview(plusButton)
+        box.addSubview(dailyTaskLabel)
+        box.addSubview(plusButton)
+        
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.backgroundColor = UIColor(hex: "#50C2C9")
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
         tableView.separatorStyle = .none
 
@@ -208,13 +209,16 @@ class ViewController: UIViewController {
         wellcomeLabel,
         goodAfternoonLabel,
         taskListLabel,
-        viewForTableViewAndHeaders,
-        dailyTaskLabel,
-        plusButton,
+        box,
         tableView
         ]
         
         subviewsToAdd.forEach{ view.addSubview($0)}
+        
+        shapeImageView.snp.makeConstraints{ make in
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+        }
         
         rectangleImageView.snp.makeConstraints{ make in
             make.top.equalToSuperview()
@@ -222,18 +226,8 @@ class ViewController: UIViewController {
         }
         
         profileImageView.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(133)
+            make.top.equalToSuperview().offset(128)
             make.centerX.equalToSuperview()
-        }
-        
-        shapeImageView.snp.makeConstraints{ make in
-            make.leading.equalToSuperview().inset(0)
-            make.top.equalToSuperview().inset(0)
-        }
-        
-        clockImageView.snp.makeConstraints{ make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(341)
         }
         
         wellcomeLabel.snp.makeConstraints{ make in
@@ -242,46 +236,45 @@ class ViewController: UIViewController {
         }
         
         goodAfternoonLabel.snp.makeConstraints{ make in
-            make.top.equalTo(rectangleImageView.snp.bottom).offset(26)
-            make.trailing.equalToSuperview().offset(-25)
+            make.top.equalTo(rectangleImageView.snp.bottom).offset(24)
+            make.trailing.equalToSuperview().inset(24)
+        }
+        
+        clockImageView.snp.makeConstraints{ make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(goodAfternoonLabel.snp.bottom).offset(16)
         }
         
         taskListLabel.snp.makeConstraints{ make in
-            make.top.equalTo(rectangleImageView.snp.bottom).offset(202)
-            make.leading.equalToSuperview().offset(25)
+            make.top.equalTo(clockImageView.snp.bottom).offset(16)
+            make.leading.equalToSuperview().offset(24)
         }
         
-        viewForTableViewAndHeaders.snp.makeConstraints{ make in
+        box.snp.makeConstraints{ make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(clockImageView.snp.bottom).offset(89)
-            make.width.equalTo(382)
+            make.top.equalTo(taskListLabel.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(309)
         }
 
         dailyTaskLabel.snp.makeConstraints { make in
-            make.leading.equalTo(viewForTableViewAndHeaders.snp.leading).offset(25)
-            make.top.equalTo(viewForTableViewAndHeaders.snp.top).offset(24)
+            make.top.equalToSuperview().offset(24)
+            make.leading.equalToSuperview().offset(16)
         }
 
         plusButton.snp.makeConstraints { make in
-            make.trailing.equalTo(viewForTableViewAndHeaders.snp.trailing).offset(-24)
-            make.top.equalTo(viewForTableViewAndHeaders.snp.top).offset(20)
-            make.width.height.equalTo(24) // Размер кнопки
+            make.top.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(16)
+            //make.height.equalTo(24) // Размер кнопки
         }
 
         tableView.snp.makeConstraints{ make in
-            make.top.equalTo(viewForTableViewAndHeaders.snp.top).offset(96)
-            make.leading.equalTo(viewForTableViewAndHeaders.snp.leading).offset(25)
-            make.bottom.equalTo(viewForTableViewAndHeaders.snp.bottom).inset(68)
-            make.trailing.equalTo(viewForTableViewAndHeaders.snp.trailing).inset(35)
+            make.top.equalTo(dailyTaskLabel.snp.top).offset(64)
+            make.leading.trailing.equalTo(box).inset(24)
+            make.bottom.equalTo(box.snp.bottom).inset(32)
         }
     }
-
-    
-    
 }
-
-
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -289,48 +282,30 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        let cellStackView = UIStackView()
-        cellStackView.axis = .horizontal
-        cellStackView.spacing = 8 // Расстояние между кнопкой и текстом
-        cellStackView.alignment = .center
-        
-        
-        let logoButtonn: UIButton = {
-            let button = UIButton()
-            button.setImage(UIImage(named: "Rectangle 9"), for: .normal)
-            button.setImage(UIImage(named: "Rectangle 9-2"), for: .selected)
-            button.addTarget(self, action: #selector(logoButtonTapped), for: .touchUpInside)
-
-            return button
-        }()
-        
-        let cellTextLabel = UILabel()
-        
-        cellTextLabel.text = tasks[indexPath.row] // текст из массива tasks
-        cellTextLabel.font = Fonts.style(type: .semibold, size: 12)
-        cellTextLabel.textColor = UIColor(hex: "#000000")?.withAlphaComponent(0.7)
-
-        // Добавьте кнопку и метку в StackView
-        cellStackView.setCustomSpacing(8, after: logoButtonn)
-        cellStackView.addArrangedSubview(logoButtonn)
-        cellStackView.addArrangedSubview(cellTextLabel)
-
-        // Добавьте StackView в ячейку
-        cellStackView.removeFromSuperview()
-        cell.contentView.addSubview(cellStackView)
-
-        // Используйте SnapKit для настройки constraint'ов StackView
-        cellStackView.snp.makeConstraints { make in
-            make.leading.equalTo(tableView.snp.leading) // Отступ от левого края ячейки
+        if let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? CustomTableViewCell {
+            cell.configure(title: tasks[indexPath.row], isSelected: false)
+            cell.backgroundView = .none
+            return cell
         }
-
-        return cell
+        return UITableViewCell()
     }
 
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false // Запретить выделение ячейки
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 32 // Высота ячейки
         }
     
-    
+    // Метод вызывается при нажатии на кнопку "Удалить"
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Удаление элемента из вашего источника данных
+            //data.remove(at: indexPath.row)
+            
+            // Удаление строки из таблицы
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }

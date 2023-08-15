@@ -65,7 +65,7 @@ class SignInViewController: UIViewController {
     private let stackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 80
+        stackView.spacing = 12
         
         return stackView
     }()
@@ -94,7 +94,7 @@ class SignInViewController: UIViewController {
         forgetPasswordLabel.isUserInteractionEnabled = true
     }
     
-    private let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
        let button = UIButton()
         button.backgroundColor = UIColor(hex: "#50C2C9")
         button.titleLabel?.textColor = UIColor(hex: "#FFFFFF")
@@ -108,32 +108,28 @@ class SignInViewController: UIViewController {
     
     @objc private func buttonTapped() {
         let nextScreen = ViewController()
-            navigationController?.pushViewController(nextScreen, animated: true)
-        }
-    
-    
-    
-    
+        navigationController?.pushViewController(nextScreen, animated: true)
+    }
     
     private let registrationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.isUserInteractionEnabled = true
-
+        
         let attributedText = NSMutableAttributedString(string: "Already have an account ? ", attributes: [
             .font: Fonts.style(type: .regular, size: 16)!,
             .foregroundColor: UIColor.black // Цвет для части текста до "Sign In"
         ])
-
-        attributedText.append(NSAttributedString(string: "Sign In", attributes: [
+        
+        attributedText.append(NSAttributedString(string: "Sign Up", attributes: [
             .font: Fonts.style(type: .regular, size: 16)!,
             .foregroundColor: UIColor(hex: "#50C2C9")! // Цвет для "Sign In"
         ]))
         
         label.attributedText = attributedText
         
-            return label
-        }()
+        return label
+    }()
     
     private func tapGestureForRegistration(){
         //Добавляем жест "нажатие" (tap gesture)
@@ -154,6 +150,9 @@ class SignInViewController: UIViewController {
     //MARK: - Constraints
     
     private func setupUI(){
+        
+        view.backgroundColor = UIColor(hex: "#F2F2F2")
+        
         stackView.addArrangedSubview(emailField)
         stackView.addArrangedSubview(passwordField)
         
@@ -170,58 +169,42 @@ class SignInViewController: UIViewController {
         subviewsToAdd.forEach{ view.addSubview($0)}
         
         shapeImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(0)
-            make.top.equalToSuperview().inset(0)
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
         }
         
         headerLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(248)
-            //make.leading.equalToSuperview().offset(111)
+            make.top.equalTo(shapeImageView.snp.bottom).offset(32)
         }
         
         centerImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(headerLabel.snp.bottom).offset(53)
+            make.top.equalTo(headerLabel.snp.bottom).offset(64)
         }
         
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(centerImage.snp.bottom).offset(87)
-            //make.centerX.equalToSuperview()
-            make.left.equalToSuperview().offset(23)
+            make.top.equalTo(centerImage.snp.bottom).offset(128)
+            make.leading.trailing.equalToSuperview().inset(16)
         }
         
         forgetPasswordLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(stackView.snp.bottom).offset(90)
+            make.top.equalTo(stackView.snp.bottom).offset(32)
         }
         
         loginButton.snp.makeConstraints { make in
-            //make.top.equalTo(forgetPasswordLabel.snp.bottom).offset(48)
-            make.bottom.equalToSuperview().offset(-73)
             make.centerX.equalToSuperview()
-            make.width.equalTo(380)
+            make.top.equalTo(forgetPasswordLabel.snp.bottom).offset(64)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(60)
         }
         
         registrationLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(loginButton.snp.bottom).offset(19)
+            make.top.equalTo(loginButton.snp.bottom).offset(16)
         }
-        
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 
